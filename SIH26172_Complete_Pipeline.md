@@ -188,7 +188,7 @@ Amplitude
 ### Role
 Convert the 480-sample time-domain frame into a 40-number vector encoding which speech-relevant frequencies are energetically present. This is the CNN's actual input — never the raw waveform.
 
-All DSP runs via **ESP-DSP** (`arm_rfft_fast_f32`, `arm_mat_mult_f32`) — hardware-optimised SIMD routines for the Xtensa LX7 architecture.
+All DSP runs via **ESP-DSP** — Espressif's own DSP library for the Xtensa LX7 architecture (`dsps_wind_hann_f32` for windowing, `dsps_fft2r_fc32` + `dsps_bit_rev2r_fc32` for the FFT, per-band dot products against the filterbank matrix for the Mel step). Earlier drafts of this doc referenced CMSIS-DSP's `arm_*` function names — those target ARM Cortex-M cores and don't run on Xtensa, so the firmware uses ESP-DSP's `dsps_*` API throughout; see `dsp_features.cpp`.
 
 ### 3.1 Fast Fourier Transform — Time → Frequency Domain
 
